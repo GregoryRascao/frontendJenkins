@@ -1,0 +1,7 @@
+<a *blif="!item.callback" id="test" class="nav-link" href="#" [blroute]="item.route">
+    {{ item.value }}
+</a>
+
+<a *blif="item.callback" id="test" class="nav-link" href="#" (click)="item.callback()">
+    {{ item.value }}
+</a>

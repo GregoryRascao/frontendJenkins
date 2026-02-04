@@ -1,0 +1,26 @@
+.item-line-info
+{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+html {
+    height: 100%;
+}
+
+#body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+#root {
+    flex: 1;
+    padding: 40px;
+}
+
+footer {
+    text-align: center;
+}

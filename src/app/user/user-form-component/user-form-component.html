@@ -1,0 +1,16 @@
+<h3>User :</h3>
+<form>
+    <div *blif="!user.id" class="mb-3">
+        <input placeholder="username" type="text" class="form-control" [control]="usernamectl" />
+    </div>
+    <div class="mb-3">
+        <input placeholder="password" type="password" class="form-control" [control]="userpasswordctl" />
+    </div>
+    <div class="mb-3">
+        <input placeholder="email" type="text" class="form-control" [control]="useremailctl" />
+    </div>
+    <div class="mb-3">
+        <input placeholder="description" type="text" class="form-control" [control]="userdescriptionctl" />
+    </div>
+    <input class="btn btn-primary" type="submit" name="submit" [control]="submitctl" />
+</form>

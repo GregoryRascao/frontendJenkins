@@ -1,0 +1,3 @@
+installation : copier le package*.json dans le dossier de votre projet et lancer la commande `npm install` dans le terminal de votre projet.
+démarer : npm start
+port : 1980

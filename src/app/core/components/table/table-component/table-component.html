@@ -1,0 +1,13 @@
+<table *blif="config" class="table table-striped table-hover">
+    <thead>
+        <tr *blfor="let col of config.columns">
+            <th scope="col">{{ col.columnName }}</th>
+        </tr>
+    </thead>
+    <tbody *blfor="let tabRow of data">
+        <tr *blfor="let col of config.columns">
+            <td is="table-item-component" [element]="tabRow.row" [column]="col"
+                [actions]="config.actions" [formGroup]="tabRow.formGroup"></td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  front:
+    build: ./
+    working_dir: /front
+    ports:
+      - '1980:1980'
+    volumes:
+      - ./:/front
+      

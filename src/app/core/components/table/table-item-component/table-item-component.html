@@ -1,0 +1,9 @@
+<td *blif="column.type === columnType.DATA">{{ colValue }}</td>
+<td *blif="column.type === columnType.ACTIONS">
+    <div class="btn-group" *blfor="let control of controls">
+        <input class="btn btn-outline-primary" type="submit" [control]="control" />
+    </div>
+</td>
+<td *blif="column.type === columnType.FORM">
+    <input [type]="inputCtr.type" [control]="inputCtr" />
+</td>

@@ -1,0 +1,16 @@
+<h2>Item :</h2>
+<form>
+    <div class="mb-3">
+        <input placeholder="name" type="text" class="form-control" [control]="namectl" />
+    </div>
+    <div class="mb-3">
+        <input placeholder="price" type="number" class="form-control" [control]="pricectl" />
+    </div>
+    <div class="mb-3">
+        <input placeholder="quantity" type="number" class="form-control" [control]="quantityctl" />
+    </div>
+    <div class="mb-3">
+        <input placeholder="description" type="text" class="form-control" [control]="descriptionctl" />
+    </div>
+    <input class="btn btn-primary" type="submit" name="submit" [control]="submitctl" />
+</form>

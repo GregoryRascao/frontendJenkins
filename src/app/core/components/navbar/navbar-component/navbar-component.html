@@ -1,0 +1,13 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container container-fluid">
+        <a class="navbar-brand" href="#">{{ config.name }}</a>
+        <div *blfor="let group of config.itemGroups" class="collapse navbar-collapse">
+            <ul *blif="!group.groupSide" class="navbar-nav me-auto mb-2 mb-lg-0"
+                is="navbar-item-group-component" [group]="group">
+            </ul>
+            <ul *blif="group.groupSide" class="navbar-nav ms-auto mb-2 mb-lg-0"
+                is="navbar-item-group-component" [group]="group">
+            </ul>
+        </div>
+    </div>
+</nav>
