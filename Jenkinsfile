@@ -7,45 +7,38 @@ pipeline {
         DEPLOY_PATH = credentials('deployment-prod')
     }
 
-    stages {
-        stage("Build container") {
-            steps {
-                // !!!! Attention !!!! : Assurez-vous que :
-                // 1. Docker est installé et configuré sur votre machine Jenkins.
-                // 2. Votre Jenkins a les permissions nécessaires pour exécuter des commandes Docker.
-                sh 'docker --version'
-                // On supprime l'image existante pour éviter les conflits.
-                sh 'docker image rm -f deployment-front || true'
-                sh "sed -i \"s|api: '.*'|api: 'http://api.deployment.local.test.be/'| \" src/env/environement.ts"
-                sh 'docker build -t deployment-front .'
-                // Exporter l'image
-                sh 'docker save deployment-front -o ./deployment-front.tar'
+    stage('Build container') {
+        steps {
+            sh 'docker image rm -f deployment-front || true'
+            sh '''
+                sed -E -i "s/(api:[[:space:]]*')([a-zA-Z0-9#@{}:/_]*)(')/\1http:\/\/api.deployment.local.test.be\/\3/g" ./src/env/environement.ts
+            '''
+            sh 'docker build -t deployment-front .'
+            sh 'docker save deployment-front -o ./deployment-front.tar'
+        }
+    }
+
+    stage('Deploy SSH') {
+        steps {
+            sshagent([env.SSH_KEY_CREDENTIALS_ID]) {
+                sh '''
+                    scp ./deployment-front.tar $SSH_SERVER:$DEPLOY_PATH/
+                    ssh $SSH_SERVER "
+                        cd $DEPLOY_PATH
+                        docker load -i ./deployment-front.tar
+                        docker compose stop front || true
+                        docker compose rm front || true
+                        docker compose up front -d
+                    "
+                '''
             }
         }
+    }
 
-        stage('Deploy SSH') {
-            steps {
-               sshagent([env.SSH_KEY_CREDENTIALS_ID]) {
-                    sh '''
-                        scp ./deployment-front.tar $SSH_SERVER:$DEPLOY_PATH/
-                        ssh $SSH_SERVER "
-                            cd $DEPLOY_PATH
-                            docker load -i deployment-front.tar
-                            docker compose stop front || true
-                            docker compose rm front || true
-                            docker compose up front -d
-                        "
-                    '''
-               }
-            }
-        }
-
-        stage('Clean up') {
-            steps {
-                // Nettoyer les fichiers temporaires
-                sh 'rm -f ./deployment-front.tar'
-                sh 'docker image rm -f deployment-front || true'
-            }
+    stage('Cleaning up') {
+        steps {
+            sh 'docker image rm -f deployment-front'
+            sh 'rm ./deployment-front.tar'
         }
     }
 }
