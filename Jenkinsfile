@@ -16,7 +16,7 @@ pipeline {
                 sh 'docker --version'
                 // On supprime l'image existante pour éviter les conflits.
                 sh 'docker image rm -f deployment-front || true'
-                sh "sed -i "s|api: '.*'|api: 'http://api.deployment.local.test.be/'| " src/env/environement.ts"
+                sh "sed -i \"s|api: '.*'|api: 'http://api.deployment.local.test.be/'| \" src/env/environement.ts"
                 sh 'docker build -t deployment-front .'
                 // Exporter l'image
                 sh 'docker save deployment-front -o ./deployment-front.tar'
