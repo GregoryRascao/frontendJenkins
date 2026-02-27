@@ -16,7 +16,6 @@ pipeline {
                 sh 'docker --version'
                 // On supprime l'image existante pour éviter les conflits.
                 sh 'docker image rm -f deployment-front || true'
-                sh 'rm -f ./deployment-front.tar'
                 sh 'docker build -t deployment-front .'
                 // Exporter l'image
                 sh 'docker save deployment-front -o ./deployment-front.tar'
