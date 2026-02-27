@@ -10,7 +10,7 @@ pipeline {
     stage('Build container') {
         steps {
             sh 'docker image rm -f deployment-front || true'
-            sh """sed -i "s|api: '.*'|api: 'http://api.deployment.local.test.be/'| " src/env/environement.ts"""
+            sh "sed -i \"s|api: '.*'|api: 'http://api.deployment.local.test.be/'| \" src/env/environement.ts"
             sh 'docker build -t deployment-front .'
             sh 'docker save deployment-front -o ./deployment-front.tar'
         }
@@ -40,3 +40,4 @@ pipeline {
         }
     }
 }
+
