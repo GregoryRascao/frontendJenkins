@@ -4,7 +4,7 @@ pipeline {
     environment {
         SSH_SERVER = credentials('ssh-server')
         SSH_KEY_CREDENTIALS_ID = 'prod-server-key'
-        DEPLOY_PATH = credentials('front-prod')
+        DEPLOY_PATH = credentials('deployment-prod')
     }
 
     stages {
