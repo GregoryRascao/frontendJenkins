@@ -15,10 +15,10 @@ pipeline {
                 // 2. Votre Jenkins a les permissions nécessaires pour exécuter des commandes Docker.
                 sh 'docker --version'
                 // On supprime l'image existante pour éviter les conflits.
-                sh 'docker image rm -f deployment-front || true'
-                sh 'docker build -t deployment-front .'
+                sh 'docker image rm -f deployment || true'
+                sh 'docker build -t deployment .'
                 // Exporter l'image
-                sh 'docker save deployment-front -o ./deployment-front.tar'
+                sh 'docker save deployment -o ./deployment.tar'
             }
         }
 
@@ -26,10 +26,10 @@ pipeline {
             steps {
                sshagent([env.SSH_KEY_CREDENTIALS_ID]) {
                     sh '''
-                        scp ./deployment-front.tar $SSH_SERVER:$DEPLOY_PATH/
+                        scp ./deployment.tar $SSH_SERVER:$DEPLOY_PATH/
                         ssh $SSH_SERVER "
                             cd $DEPLOY_PATH
-                            docker load -i deployment-front.tar
+                            docker load -i deployment.tar
                             docker compose stop front || true
                             docker compose rm front || true
                             docker compose up front -d
@@ -42,8 +42,8 @@ pipeline {
         stage('Clean up') {
             steps {
                 // Nettoyer les fichiers temporaires
-                sh 'rm -f ./deployment-front.tar'
-                sh 'docker image rm -f deployment-front || true'
+                sh 'rm -f ./deployment.tar'
+                sh 'docker image rm -f deployment || true'
             }
         }
     }
