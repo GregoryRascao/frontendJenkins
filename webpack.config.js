@@ -88,6 +88,7 @@ module.exports = {
             directory: __dirname,
         },
         compress: true,
+        allowedHosts: "all",
         port: 1980,
         devMiddleware: {
             writeToDisk: true
