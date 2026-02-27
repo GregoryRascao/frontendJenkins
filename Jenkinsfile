@@ -17,6 +17,7 @@ pipeline {
                 // On supprime l'image existante pour éviter les conflits.
                 sh 'docker image rm -f front || true'
                 sh 'docker build -t front .'
+                sh 'rm -f ./front.tar'
                 // Exporter l'image
                 sh 'docker save front -o ./front.tar'
             }
