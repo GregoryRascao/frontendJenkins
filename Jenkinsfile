@@ -38,5 +38,13 @@ pipeline {
                }
             }
         }
+
+        stage('Clean up') {
+            steps {
+                // Nettoyer les fichiers temporaires
+                sh 'rm -f ./front.tar'
+                sh 'docker image rm -f front || true'
+            }
+        }
     }
 }
